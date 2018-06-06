@@ -1,12 +1,15 @@
+package simple
+
 import akka.actor.{ActorSystem, Props}
+import akka.routing.RoundRobinPool
 
 object Application extends App {
   val actorSystem = ActorSystem("akka-system")
-  val simpleActor = actorSystem.actorOf(Props(new SimpleActor), "simple-actor")
-  simpleActor ! "error"
+  val simpleActor = actorSystem.actorOf(RoundRobinPool(5).props(Props[SimpleActor]), "simple-actor")
   simpleActor ! "ccc"
-  simpleActor ! "error"
   simpleActor ! "ccc1"
+  simpleActor ! "error"
+  simpleActor ! "error"
   simpleActor ! "error"
   simpleActor ! "ccc2"
   simpleActor ! "error"
