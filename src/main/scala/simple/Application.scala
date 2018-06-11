@@ -6,12 +6,17 @@ import akka.routing.RoundRobinPool
 object Application extends App {
   val actorSystem = ActorSystem("akka-system")
   val simpleActor = actorSystem.actorOf(RoundRobinPool(5).props(Props[SimpleActor]), "simple-actor")
-  simpleActor ! "ccc"
-  simpleActor ! "ccc1"
-  simpleActor ! "error"
-  simpleActor ! "error"
-  simpleActor ! "error"
-  simpleActor ! "ccc2"
-  simpleActor ! "error"
+  val secondActor = actorSystem.actorOf(Props[SecondActor], "second-actor")
+  simpleActor ! secondActor
+  simpleActor ! secondActor
+  simpleActor ! secondActor
+  simpleActor ! secondActor
+  simpleActor ! secondActor
+  //  simpleActor ! "ccc1"
+  //  simpleActor ! "error"
+  //  simpleActor ! "error"
+  //  simpleActor ! "error"
+  //  simpleActor ! "ccc2"
+  //  simpleActor ! "error"
 
 }
